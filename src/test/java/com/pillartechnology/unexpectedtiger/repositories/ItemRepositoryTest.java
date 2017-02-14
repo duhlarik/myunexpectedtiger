@@ -21,17 +21,17 @@ public class ItemRepositoryTest {
 
     @Test
     public void retrieveAll_returns_empty_when_no_items_added() {
-        //Act
+        //SUT
         List<Item> actualItems = new ItemRepository().retrieveAll();
 
-        //Assert
+        //ASSERT
         assertNotNull(actualItems);
         Assert.assertEquals(0, actualItems.size());
     }
 
     @Test
     public void retrieveAll_returns_one_item_added_correctly() {
-        //Arrange
+        //ARRANGE
         Item item = new Item("test");
         itemRepository.add(item);
 
@@ -63,10 +63,44 @@ public class ItemRepositoryTest {
     }
 
     @Test
-    public void removeItem_removes_one_item() {
+    public void clearAll_removes_all_items_from_list() {
         //ARRANGE
-        Item item = new Item("test item");
-        itemRepository.add(item);
+        Item item1 = new Item("test item 1");
+        Item item2 = new Item("test item 2");
+        itemRepository.add(item1);
+        itemRepository.add(item2);
+
+        //SUT
+        itemRepository.clearAll();
+        List<Item> actualItems = itemRepository.retrieveAll();
+
+        //ASSERT
+        assertEquals(0, actualItems.size());
+    }
+
+    @Test
+    public void removeItem_removes_the_last_item_from_the_list() {
+        //ARRANGE
+        Item item1 = new Item("test 1");
+        Item item2 = new Item("test 2");
+        itemRepository.add(item1);
+        itemRepository.add(item2);
+
+        //SUT
+        itemRepository.removeItem();
+        List<Item> actualItems = itemRepository.retrieveAll();
+
+        //ASSERT
+        assertEquals("test 1", actualItems.get(0).getContent());
+        assertEquals(1, actualItems.size());
+    }
+
+    @Test
+    public void removeItem_still_works_when_itemList_is_empty() {
+        //ARRANGE
+        Item item1 = new Item("test 1");
+        itemRepository.add(item1);
+        itemRepository.clearAll();
 
         //SUT
         itemRepository.removeItem();

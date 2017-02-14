@@ -13,18 +13,18 @@ public class IndexController {
     @Autowired
     private ItemRepository itemRepository;
 
-//    @RequestMapping("/")
-//    String index(ModelMap model) {
-//
-//        model.put("todoItems", itemRepository.getTodoItems());
-//        model.addAttribute("item", new Item());
-//        return "index";
-//    }
-//
-//    @RequestMapping("/add")
-//    String add(Item item) {
-//        itemRepository.add(item);
-//        return "redirect:/";
-//    }
+    @RequestMapping("/")
+    String index(ModelMap model) {
+
+        model.put("todoItems", itemRepository.retrieveAll());
+        model.addAttribute("item", new Item());
+        return "index";
+    }
+
+    @RequestMapping("/add")
+    String add(Item item) {
+        itemRepository.add(item);
+        return "redirect:/";
+    }
 
 }
