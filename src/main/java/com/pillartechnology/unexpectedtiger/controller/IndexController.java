@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class IndexController {
@@ -39,9 +40,10 @@ public class IndexController {
         return "redirect:/";
     }
 
-    @RequestMapping("/removeItem")
-    String removeItem(Item item) {
-        itemRepository.removeItem(item);
+    @RequestMapping(value="/removeItem", method = RequestMethod.GET)
+    String removeItem(@RequestParam("itemId") Integer itemId) {
+        Item item = new Item(itemId);
+        itemRepository.removeItem(itemId);
         return "redirect:/";
     }
 

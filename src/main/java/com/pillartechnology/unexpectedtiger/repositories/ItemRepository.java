@@ -34,8 +34,12 @@ public class ItemRepository {
         }
     }
 
-    public void removeItem(Item item) {
-        items.remove(item);
-        System.out.println("******** REMOVE ITEM " + item.getItemId() + " " + item.getContent() +"********");
+    public void removeItem(Integer itemId) {
+        for(Item item : items){
+            if(item.getItemId() == itemId){
+                items.remove(item);
+                break;
+            }
+        }
     }
 }

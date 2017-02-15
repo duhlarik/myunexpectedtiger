@@ -32,15 +32,11 @@
 <table>
     <tr th:each="item : ${todoItems}">
         <td>
-            <form ACTION="#" th:action="@{/removeItem}" th:object="${item}" method="POST">
+            <a th:href="@{'/removeItem?itemId=' + ${item.itemId}}">Remove</a>
                 <td>
                     <div th:text="${item.content}" >Hello World</div>
-                    <input type="hidden" th:text="${itemId}"/>
+                    <!--<div th:text="${item.itemId}" >Hello World</div>-->
                 </td>
-                <td>
-                    <button type="submit">Remove item</button>
-                </td>
-            </form>
         </td>
     </tr>
 </table>
