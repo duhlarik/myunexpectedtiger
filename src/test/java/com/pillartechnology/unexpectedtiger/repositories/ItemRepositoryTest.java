@@ -6,10 +6,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 public class ItemRepositoryTest {
 
@@ -132,12 +131,12 @@ public class ItemRepositoryTest {
         Item item2 = new Item("item 2");
         Item item3 = new Item("item 3");
         itemRepository.add(item1);
-        itemRepository.add(item2);
+        Item item2Added = itemRepository.add(item2);
         itemRepository.add(item3);
         assertEquals(3, itemRepository.retrieveAll().size());
 
         //SUT
-        itemRepository.removeItem(item2);
+        itemRepository.removeItem(item2Added);
         List<Item> actualItems = itemRepository.retrieveAll();
 
         //ASSERT
@@ -147,4 +146,16 @@ public class ItemRepositoryTest {
         assertNotEquals("item 2", actualItems.get(1).getContent());
     }
 
+    @Test
+    public void add_generated_random_item_id() throws Exception {
+        //Arrange
+        Item item1 = new Item("content");
+
+        //SUT
+        Item actualItem1 = itemRepository.add(item1);
+
+        //Asserts
+        Item actualItem2 = itemRepository.add(new Item("content 2"));
+        assertTrue(actualItem1.getItemId() != actualItem2.getItemId());
+    }
 }
