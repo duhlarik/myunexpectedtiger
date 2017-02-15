@@ -27,4 +27,22 @@ public class IndexController {
         return "redirect:/";
     }
 
+    @RequestMapping("/clear")
+    String clear() {
+        itemRepository.clearAll();
+        return "redirect:/";
+    }
+
+    @RequestMapping("/removeLast")
+    String removeLast() {
+        itemRepository.removeLastItem();
+        return "redirect:/";
+    }
+
+    @RequestMapping("/removeItem")
+    String removeItem(Item item) {
+        itemRepository.removeItem(item);
+        return "redirect:/";
+    }
+
 }

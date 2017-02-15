@@ -8,6 +8,7 @@ import org.junit.Test;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
 public class ItemRepositoryTest {
@@ -79,7 +80,7 @@ public class ItemRepositoryTest {
     }
 
     @Test
-    public void removeItem_removes_the_last_item_from_the_list() {
+    public void removeLastItem_removes_the_last_item_from_the_list() {
         //ARRANGE
         Item item1 = new Item("test 1");
         Item item2 = new Item("test 2");
@@ -87,7 +88,7 @@ public class ItemRepositoryTest {
         itemRepository.add(item2);
 
         //SUT
-        itemRepository.removeItem();
+        itemRepository.removeLastItem();
         List<Item> actualItems = itemRepository.retrieveAll();
 
         //ASSERT
@@ -96,18 +97,54 @@ public class ItemRepositoryTest {
     }
 
     @Test
-    public void removeItem_still_works_when_itemList_is_empty() {
+    public void removeLastItem_still_works_when_itemList_is_empty() {
         //ARRANGE
-        Item item1 = new Item("test 1");
-        itemRepository.add(item1);
+        Item item = new Item("test 1");
+        itemRepository.add(item);
         itemRepository.clearAll();
 
         //SUT
-        itemRepository.removeItem();
+        itemRepository.removeLastItem();
         List<Item> actualItems = itemRepository.retrieveAll();
 
         //ASSERT
         assertEquals(0, actualItems.size());
+    }
+
+    @Test
+    public void removeItem_removes_an_item_from_the_list() {
+        //ARRANGE
+        Item item = new Item("test 1");
+        itemRepository.add(item);
+
+        //SUT
+        itemRepository.removeItem(item);
+        List<Item> actualItems = itemRepository.retrieveAll();
+
+        //ASSERT
+        assertEquals(0, actualItems.size());
+    }
+
+    @Test
+    public void removeItem_removes_the_correct_item_from_the_list() {
+        //ARRANGE
+        Item item1 = new Item("item 1");
+        Item item2 = new Item("item 2");
+        Item item3 = new Item("item 3");
+        itemRepository.add(item1);
+        itemRepository.add(item2);
+        itemRepository.add(item3);
+        assertEquals(3, itemRepository.retrieveAll().size());
+
+        //SUT
+        itemRepository.removeItem(item2);
+        List<Item> actualItems = itemRepository.retrieveAll();
+
+        //ASSERT
+        assertEquals(2, actualItems.size());
+        assertEquals("item 1", actualItems.get(0).getContent());
+        assertNotEquals("item 2", actualItems.get(0).getContent());
+        assertNotEquals("item 2", actualItems.get(1).getContent());
     }
 
 }

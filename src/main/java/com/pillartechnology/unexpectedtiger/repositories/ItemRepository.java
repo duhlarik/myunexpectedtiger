@@ -19,11 +19,17 @@ public class ItemRepository {
         items.add(item);
     }
 
-    void clearAll() {
+    public void clearAll() {
         items.clear();
     }
 
-    void removeItem() {
-        items.remove(items.size()-1);
+    public void removeLastItem() {
+        if(items.size()>0) {
+            items.remove(items.size()-1);
+        }
+    }
+
+    public void removeItem(Item item) {
+        items.remove(item);
     }
 }
