@@ -2,15 +2,16 @@ package com.pillartechnology.unexpectedtiger.repositories;
 
 import com.pillartechnology.unexpectedtiger.model.Item;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
+import org.springframework.stereotype.Service;
 
 import java.io.*;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+@Service
 public class ItemService {
-    public static Random RANDOM = new Random();
+    private static Random RANDOM = new Random();
     private String path = "/Users/duhlarik/Development/unexpectedtiger/src/main/resources/todos";
 
     public ItemService(String data_path) {
@@ -36,6 +37,23 @@ public class ItemService {
         return new Item(content, itemId);
     }
 
+    public List<Item> retrieveAllItems() throws IOException {
+        File itemsDir = new File(path);
+        File[] files = itemsDir.listFiles();
+
+        List<Item> items = new ArrayList<>();
+
+        if (files != null) {
+            for (File file : files) {
+                String content = readContent(file);
+                String item_id = file.getName();
+                Item item = new Item(content, item_id);
+                items.add(item);
+            }
+        }
+        return items;
+    }
+
     private String readContent(File item_file) throws IOException {
         BufferedReader itemReader = new BufferedReader(new FileReader(item_file));
         return itemReader.readLine();
@@ -47,23 +65,6 @@ public class ItemService {
             throw new RuntimeException();
         }
         item_file.delete();
-    }
-
-    public List<Item> retrieveAllItems() throws IOException {
-        File itemsDir = new File(path);
-        File[] files = itemsDir.listFiles();
-
-        List<Item> items = new ArrayList<>();
-
-        if (files != null) {
-        for (File file : files) {
-            String content = readContent(file);
-            String item_id = file.getName();
-            Item item = new Item(content, item_id);
-            items.add(item);
-            }
-        }
-        return items;
     }
 
     public void deleteAllItems() throws IOException {

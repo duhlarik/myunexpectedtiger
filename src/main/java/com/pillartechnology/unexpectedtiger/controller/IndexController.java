@@ -19,33 +19,33 @@ public class IndexController {
 
     @RequestMapping("/")
     String index(ModelMap model) throws IOException {
-        model.put("todoItems", itemRepository.retrieveAll());
+        model.put("todoItems", itemRepository.retrieveAllItems());
         model.addAttribute("item", new Item());
         return "index";
     }
 
     @RequestMapping("/add")
     String add(String content) throws IOException {
-        itemRepository.add(content);
+        itemRepository.createItem(content);
         return "redirect:/";
     }
 
     @RequestMapping("/clear")
     String clear() throws IOException {
-        itemRepository.clearAll();
-        return "redirect:/";
-    }
-
-    @RequestMapping("/removeLast")
-    String removeLast() {
-        itemRepository.removeLastItem();
+        itemRepository.deleteAllItems();
         return "redirect:/";
     }
 
     @RequestMapping(value="/removeItem", method = RequestMethod.GET)
     String removeItem(@RequestParam("itemId") String itemId) {
         Item item = new Item(itemId);
-        itemRepository.removeItem(itemId);
+        itemRepository.deleteItem(itemId);
         return "redirect:/";
     }
+
+//    @RequestMapping("/removeLast")
+//    String removeLast() {
+//        itemRepository.removeLastItem();
+//        return "redirect:/";
+//    }
 }

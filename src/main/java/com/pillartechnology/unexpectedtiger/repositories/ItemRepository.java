@@ -1,6 +1,7 @@
 package com.pillartechnology.unexpectedtiger.repositories;
 
 import com.pillartechnology.unexpectedtiger.model.Item;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
@@ -11,36 +12,27 @@ import java.util.List;
 public class ItemRepository {
 
     private List<Item> items = new ArrayList<>();
+
+    @Autowired
     private ItemService itemService = new ItemService();
 
-
-    public ItemRepository(ItemService itemService) {
-        this.itemService = itemService;
-    }
-
-    public Item add(String content) throws IOException {
+    public Item createItem(String content) throws IOException {
         return itemService.createItem(content);
     }
 
-    public Item retrieveItem(String itemId) throws IOException {
+    Item retrieveItem(String itemId) throws IOException {
         return itemService.retrieveItem(itemId);
     }
 
-    public void removeItem(String itemId) {
-        itemService.deleteItem(itemId);
-    }
-
-    public List<Item> retrieveAll() throws IOException {
+    public List<Item> retrieveAllItems() throws IOException {
         return itemService.retrieveAllItems();
     }
 
-    public void clearAll() throws IOException {
-        itemService.deleteAllItems();
+    public void deleteItem(String itemId) {
+        itemService.deleteItem(itemId);
     }
 
-    public void removeLastItem() {
-        if (items.size() > 0) {
-            items.remove(items.size() - 1);
-        }
+    public void deleteAllItems() throws IOException {
+        itemService.deleteAllItems();
     }
 }

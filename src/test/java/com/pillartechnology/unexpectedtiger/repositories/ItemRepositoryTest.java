@@ -3,67 +3,53 @@ package com.pillartechnology.unexpectedtiger.repositories;
 import com.pillartechnology.unexpectedtiger.model.Item;
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 public class ItemRepositoryTest {
 
+    @Mock
     private ItemService mockItemService;
+
+    @InjectMocks
     private ItemRepository itemRepository;
 
     @Before
     public void setUp() throws Exception {
-        //ARRANGE
-        mockItemService = mock(ItemService.class);
-        itemRepository = new ItemRepository(mockItemService);
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    public void addInvokesItemServiceCreateItem() throws Exception {
-        String expectedContent = "content";
-        //ACT
-        itemRepository.add(expectedContent);
-
-        //ASSERT
-        verify(mockItemService).createItem(expectedContent);
+    public void createItemInvokesItemServiceCreateItem() throws Exception {
+        itemRepository.createItem("content");
+        Mockito.verify(mockItemService).createItem("content");
     }
 
     @Test
     public void retrieveItemInvokesItemServiceRetrieveItem() throws Exception {
         Item item = new Item();
-        //ACT
         itemRepository.retrieveItem(item.getItemId());
-
-        //ASSERT
-        verify(mockItemService).retrieveItem(item.getItemId());
+        Mockito.verify(mockItemService).retrieveItem(item.getItemId());
     }
 
     @Test
-    public void removeItemInvokesItemServiceDeleteItem() throws Exception {
+    public void retrieveAllItemsInvokesItemServiceRetrieveAllItems() throws Exception {
+        itemRepository.retrieveAllItems();
+        Mockito.verify(mockItemService).retrieveAllItems();
+    }
+
+    @Test
+    public void deleteItemInvokesItemServiceDeleteItem() throws Exception {
         Item item = new Item();
-        //ACT
-        itemRepository.removeItem(item.getItemId());
-
-        //ASSERT
-        verify(mockItemService).deleteItem(item.getItemId());
+        itemRepository.deleteItem(item.getItemId());
+        Mockito.verify(mockItemService).deleteItem(item.getItemId());
     }
 
     @Test
-    public void retrieveAllInvokesItemServiceRetrieveAllItems() throws Exception {
-        //ACT
-        itemRepository.retrieveAll();
-
-        //ASSERT
-        verify(mockItemService).retrieveAllItems();
-    }
-
-    @Test
-    public void clearAllInvokesItemServiceDeleteAllItems() throws Exception {
-        //ACT
-        itemRepository.clearAll();
-
-        //Assert
-        verify(mockItemService).deleteAllItems();
+    public void deleteAllItemsInvokesItemServiceDeleteAllItems() throws Exception {
+        itemRepository.deleteAllItems();
+        Mockito.verify(mockItemService).deleteAllItems();
     }
 }
