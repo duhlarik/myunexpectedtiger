@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.IOException;
+
 @Controller
 public class IndexController {
 
@@ -16,20 +18,20 @@ public class IndexController {
     private ItemRepository itemRepository;
 
     @RequestMapping("/")
-    String index(ModelMap model) {
+    String index(ModelMap model) throws IOException {
         model.put("todoItems", itemRepository.retrieveAll());
         model.addAttribute("item", new Item());
         return "index";
     }
 
     @RequestMapping("/add")
-    String add(Item item) {
-        itemRepository.add(item);
+    String add(String content) throws IOException {
+        itemRepository.add(content);
         return "redirect:/";
     }
 
     @RequestMapping("/clear")
-    String clear() {
+    String clear() throws IOException {
         itemRepository.clearAll();
         return "redirect:/";
     }
@@ -41,10 +43,9 @@ public class IndexController {
     }
 
     @RequestMapping(value="/removeItem", method = RequestMethod.GET)
-    String removeItem(@RequestParam("itemId") Integer itemId) {
+    String removeItem(@RequestParam("itemId") String itemId) {
         Item item = new Item(itemId);
         itemRepository.removeItem(itemId);
         return "redirect:/";
     }
-
 }

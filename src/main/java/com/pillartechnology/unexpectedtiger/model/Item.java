@@ -8,28 +8,26 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Item {
 
     private String content;
-    public int itemId;
+    public String itemId;
 
     public Item() {
     }
 
+    public Item(String content, String itemId) {
+        this.content = content;
+        this.itemId = itemId;
+    }
+
     public Item(String content) {
-        this.content = content;
+        this(content, "");
     }
 
-    public Item(int itemId) {
-        this.itemId = itemId;
-    }
-    public Item(String content, int itemId) {
-        this.content = content;
+
+    public void setItemId(String itemId) {
         this.itemId = itemId;
     }
 
-    public void setItemId(int itemId) {
-        this.itemId = itemId;
-    }
-
-    public int getItemId() {
+    public String getItemId() {
         return itemId;
     }
 
@@ -48,11 +46,11 @@ public class Item {
 
         Item item = (Item) o;
 
-        return itemId == item.itemId;
+        return itemId != null ? itemId.equals(item.itemId) : item.itemId == null;
     }
 
     @Override
     public int hashCode() {
-        return itemId;
+        return itemId != null ? itemId.hashCode() : 0;
     }
 }

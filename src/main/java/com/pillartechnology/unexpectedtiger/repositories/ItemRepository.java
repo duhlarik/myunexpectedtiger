@@ -3,43 +3,47 @@ package com.pillartechnology.unexpectedtiger.repositories;
 import com.pillartechnology.unexpectedtiger.model.Item;
 import org.springframework.stereotype.Repository;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 @Repository
 public class ItemRepository {
 
     private List<Item> items = new ArrayList<>();
-    public static final Random RANDOM = new Random();
+    private ItemService itemService = new ItemService();
 
-    public List<Item> retrieveAll() {
-        return items;
+//    public ItemService getItemService() {
+//        return itemService;
+//    }
+
+    public void setItemService(ItemService itemService) {
+        this.itemService = itemService;
     }
 
-    public Item add(Item item) {
-        item.setItemId(RANDOM.nextInt());
-        items.add(item);
-        System.out.println("******** ADD ITEM " + item.getItemId() + " " + item.getContent() +"********");
-        return item;
+    public Item add(String content) throws IOException {
+        return itemService.createItem(content);
     }
 
-    public void clearAll() {
-        items.clear();
+    public Item retrieveItem(String itemId) throws IOException {
+        return itemService.retrieveItem(itemId);
+    }
+
+    public void removeItem(String itemId) {
+        itemService.deleteItem(itemId);
+    }
+
+    public List<Item> retrieveAll() throws IOException {
+        return itemService.retrieveAllItems();
+    }
+
+    public void clearAll() throws IOException {
+        itemService.deleteAllItems();
     }
 
     public void removeLastItem() {
-        if(items.size()>0) {
-            items.remove(items.size()-1);
-        }
-    }
-
-    public void removeItem(Integer itemId) {
-        for(Item item : items){
-            if(item.getItemId() == itemId){
-                items.remove(item);
-                break;
-            }
+        if (items.size() > 0) {
+            items.remove(items.size() - 1);
         }
     }
 }

@@ -23,10 +23,4 @@ public class UnexpectedTigerApplicationTest {
     public void indexControllerShouldReturnMarkup() throws Exception {
         mockMvc.perform(get("/")).andExpect(status().isOk());
     }
-
-
-//    @Test
-//    public void indexControllerShouldReturnMarkupWithTwoTodoElements() throws Exception {
-//        mockMvc.perform(get("/")).andExpect(status().isOk()).andExpect(content().string(containsString("<div>Item1</div>\n<div>Item2</div>")));
-//    }
 }
