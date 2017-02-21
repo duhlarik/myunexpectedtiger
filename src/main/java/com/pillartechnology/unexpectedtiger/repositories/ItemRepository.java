@@ -13,11 +13,8 @@ public class ItemRepository {
     private List<Item> items = new ArrayList<>();
     private ItemService itemService = new ItemService();
 
-//    public ItemService getItemService() {
-//        return itemService;
-//    }
 
-    public void setItemService(ItemService itemService) {
+    public ItemRepository(ItemService itemService) {
         this.itemService = itemService;
     }
 

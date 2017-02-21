@@ -19,7 +19,7 @@ public class ItemServiceTest {
     public TemporaryFolder folder = new TemporaryFolder();
 
     @Test
-    public void createItemTestsContentToAFile() throws Exception {
+    public void createItemTestsThatContentIsAddedToAFile() throws Exception {
         String expectedContent1 = "Test 1";
         ItemService service = new ItemService(folder.getRoot().getPath());
         Item itemUnderTest1 = service.createItem(expectedContent1);
@@ -32,7 +32,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    public void retrieveItem() throws Exception {
+    public void retrieveItemTestsThatTheCorrectItemIsRetrieved() throws Exception {
         //ARRANGE
         String expectedContent = "Test 1";
         ItemService service = new ItemService(folder.getRoot().getPath());
@@ -47,7 +47,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    public void deleteItem() throws Exception {
+    public void deleteItemTestsThatTheCorrectItemIsDeleted() throws Exception {
         ItemService service = new ItemService(folder.getRoot().getPath());
         Item testItem1 = service.createItem("Test content 1");
         Item testItem2 = service.createItem("Test content 2");
@@ -70,7 +70,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    public void retrieveAllItems() throws Exception {
+    public void retrieveAllItemsTestsThatAllItemsAreRetrieved() throws Exception {
         ItemService service = new ItemService(folder.getRoot().getPath());
         Item testItem1 = service.createItem("Test content 1");
         Item testItem2 = service.createItem("Test content 2");
@@ -89,7 +89,7 @@ public class ItemServiceTest {
     }
 
     @Test
-    public void deleteAllItems() throws Exception {
+    public void deleteAllItemsTestsThatAllItemsAreDeleted() throws Exception {
         ItemService service = new ItemService((folder.getRoot().getPath()));
         Item item1 = service.createItem("content 1");
         Item item2 = service.createItem("content 2");
