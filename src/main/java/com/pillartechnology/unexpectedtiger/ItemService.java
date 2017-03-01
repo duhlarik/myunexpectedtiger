@@ -1,4 +1,4 @@
-package com.pillartechnology.unexpectedtiger.repositories;
+package com.pillartechnology.unexpectedtiger;
 
 import com.pillartechnology.unexpectedtiger.model.Item;
 import org.apache.tomcat.util.http.fileupload.FileUtils;

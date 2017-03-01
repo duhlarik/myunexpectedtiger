@@ -23,3 +23,8 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+
+gradle/.DS_Store
+	out/.DS_Store
+	out/production/.DS_Store
+	out/production/unexpectedtiger/.DS_Store

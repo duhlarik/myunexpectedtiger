@@ -1,7 +1,6 @@
 package com.pillartechnology.unexpectedtiger;
 
 import com.pillartechnology.unexpectedtiger.model.Item;
-import com.pillartechnology.unexpectedtiger.repositories.ItemService;
 import org.hamcrest.Matchers;
 import org.junit.Rule;
 import org.junit.Test;

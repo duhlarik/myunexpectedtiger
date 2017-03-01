@@ -22,8 +22,23 @@
 
 </form>
 
+<form th:action="@{/removeLast}" method="post" th:object="${item}">
+    <button type="submit">Remove last item</button>
+
+</form>
+
 <h2>Your list of things todo</h2>
-<div th:each="item : ${todoItems}" th:text="${item.content}" >Hello World</div>
+
+<table>
+    <tr th:each="item : ${todoItems}">
+        <td>
+            <div th:text="${item.content}" >Hello World</div>
+        </td>
+        <td>
+            <a th:href="@{'/removeItem?itemId=' + ${item.itemId}}">Remove</a>
+        </td>
+    </tr>
+</table>
 
 </body>
 </html>

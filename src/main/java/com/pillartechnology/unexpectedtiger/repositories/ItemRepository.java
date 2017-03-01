@@ -1,5 +1,6 @@
 package com.pillartechnology.unexpectedtiger.repositories;
 
+import com.pillartechnology.unexpectedtiger.entities.ItemEntity;
 import com.pillartechnology.unexpectedtiger.model.Item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -11,28 +12,37 @@ import java.util.List;
 @Repository
 public class ItemRepository {
 
-    private List<Item> items = new ArrayList<>();
-
     @Autowired
-    private ItemService itemService = new ItemService();
+    private ItemDBService itemService;
 
     public Item createItem(String content) throws IOException {
-        return itemService.createItem(content);
+        ItemEntity entity = new ItemEntity();
+        entity.setContent(content);
+        entity = itemService.save(entity);
+        return new Item(entity.getContent(), String.valueOf(entity.getId()));
     }
 
     Item retrieveItem(String itemId) throws IOException {
-        return itemService.retrieveItem(itemId);
+        ItemEntity entity = itemService.findOne(Integer.valueOf(itemId));
+        return new Item(entity.getContent(), String.valueOf(entity.getId()));
     }
 
     public List<Item> retrieveAllItems() throws IOException {
-        return itemService.retrieveAllItems();
+        Iterable<ItemEntity> entities = itemService.findAll();
+        ArrayList<Item> items = new ArrayList<>();
+        for (ItemEntity entity : entities) {
+            Item item = new Item(entity.getContent(), String.valueOf(entity.getId()));
+            items.add(item);
+        }
+        return items;
     }
 
     public void deleteItem(String itemId) {
-        itemService.deleteItem(itemId);
+        itemService.delete(Integer.valueOf(itemId));
     }
 
     public void deleteAllItems() throws IOException {
-        itemService.deleteAllItems();
+        itemService.deleteAll();
     }
 }
+
