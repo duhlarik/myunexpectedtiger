@@ -2,8 +2,6 @@ package com.pillartechnology.unexpectedtiger.model;
 
 import org.springframework.stereotype.Component;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 @Component
 public class Item {
 
@@ -18,11 +16,6 @@ public class Item {
         this.itemId = itemId;
     }
 
-    public Item(String content) {
-        this(content, "");
-    }
-
-
     public void setItemId(String itemId) {
         this.itemId = itemId;
     }
@@ -31,26 +24,12 @@ public class Item {
         return itemId;
     }
 
-    public String getContent() {
-        return content;
-    }
-
     public void setContent(String content) {
         this.content = content;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Item item = (Item) o;
-
-        return itemId != null ? itemId.equals(item.itemId) : item.itemId == null;
+    public String getContent() {
+        return content;
     }
 
-    @Override
-    public int hashCode() {
-        return itemId != null ? itemId.hashCode() : 0;
-    }
 }

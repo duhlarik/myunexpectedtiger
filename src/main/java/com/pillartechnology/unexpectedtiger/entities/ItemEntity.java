@@ -4,16 +4,19 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import static java.util.UUID.randomUUID;
+
 @Entity (name = "Item")
 public class ItemEntity {
 
     @Id
-    private Long id;
+    private String id;
 
     @Column
     private String content;
 
     public ItemEntity() {
+        id = randomUUID().toString();
     }
 
     public String getContent() {
@@ -24,11 +27,13 @@ public class ItemEntity {
         this.content = content;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
+
+
 }

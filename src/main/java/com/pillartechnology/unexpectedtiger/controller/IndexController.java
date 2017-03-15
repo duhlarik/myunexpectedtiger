@@ -1,7 +1,7 @@
 package com.pillartechnology.unexpectedtiger.controller;
 
 import com.pillartechnology.unexpectedtiger.model.Item;
-import com.pillartechnology.unexpectedtiger.repositories.ItemRepository;
+import com.pillartechnology.unexpectedtiger.repositories.ItemDBRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -15,31 +15,31 @@ import java.io.IOException;
 public class IndexController {
 
     @Autowired
-    private ItemRepository itemRepository;
+    private ItemDBRepository itemDBRepository;
 
     @RequestMapping("/")
     String index(ModelMap model) throws IOException {
-        model.put("todoItems", itemRepository.retrieveAllItems());
+        model.put("todoItems", itemDBRepository.findAll());
         model.addAttribute("item", new Item());
         return "index";
     }
 
     @RequestMapping("/add")
-    String add(String content) throws IOException {
-        itemRepository.createItem(content);
+    String add(Item item) throws IOException {
+        itemDBRepository.save(item);
         return "redirect:/";
     }
 
     @RequestMapping("/clear")
     String clear() throws IOException {
-        itemRepository.deleteAllItems();
+        itemDBRepository.deleteAll();
         return "redirect:/";
     }
 
     @RequestMapping(value="/removeItem", method = RequestMethod.GET)
     String removeItem(@RequestParam("itemId") String itemId) {
-        Item item = new Item(itemId);
-        itemRepository.deleteItem(itemId);
+        Item item = new Item();
+        itemDBRepository.delete(itemId);
         return "redirect:/";
     }
 

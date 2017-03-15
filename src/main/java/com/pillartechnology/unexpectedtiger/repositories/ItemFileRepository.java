@@ -1,43 +1,46 @@
-package com.pillartechnology.unexpectedtiger;
+package com.pillartechnology.unexpectedtiger.repositories;
 
 import com.pillartechnology.unexpectedtiger.model.Item;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
-@Service
-public class ItemService {
-    private static Random RANDOM = new Random();
+@Repository
+public class ItemFileRepository {
+
+    @Autowired
+    private ItemService itemService;
+
     private String path = "/Users/duhlarik/Development/unexpectedtiger/src/main/resources/todos";
 
-    public ItemService(String data_path) {
+    ItemFileRepository(String data_path) {
         this.path = data_path;
     }
 
-    public ItemService() {
+    public ItemFileRepository() {
     }
 
-    public Item createItem(String content) throws IOException {
-        final int itemId = RANDOM.nextInt(9000000) + 1000000;
-        String itemIdString = Integer.toString(itemId);
-        File item_file = new File(path, itemIdString);
+    Item save(Item item) throws IOException {
+        String content = item.getContent();
+        String itemId = item.getItemId();
+        File item_file = new File(path, itemId);
         try (FileWriter writer = new FileWriter(item_file)) {
             writer.append(content);
         }
-        return new Item(content, itemIdString);
+        return new Item(content, itemId);
     }
 
-    public Item retrieveItem(String itemId) throws IOException {
+    Item findOne(String itemId) throws IOException {
         File item_file = new File(path, itemId);
         String content = readContent(item_file);
         return new Item(content, itemId);
     }
 
-    public List<Item> retrieveAllItems() throws IOException {
+    List<Item> findAll() throws IOException {
         File itemsDir = new File(path);
         File[] files = itemsDir.listFiles();
 
@@ -59,7 +62,7 @@ public class ItemService {
         return itemReader.readLine();
     }
 
-    public void deleteItem(String itemId) {
+    void delete(String itemId) {
         File item_file = new File(path + File.separator + itemId);
         if (!item_file.exists()) {
             throw new RuntimeException();
@@ -67,7 +70,7 @@ public class ItemService {
         item_file.delete();
     }
 
-    public void deleteAllItems() throws IOException {
+    void deleteAll() throws IOException {
         FileUtils.cleanDirectory(new File(path));
     }
 }

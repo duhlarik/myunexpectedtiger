@@ -5,40 +5,27 @@
     <title>Title</title>
 </head>
 <body>
-
 <!--todoItems & second item.content will be underlined in red in Intellij-->
-<!---->
 <h2>Add to your list of things todo</h2>
 <!--/*@thymesVar id="item" type="java"*/-->
 <form th:action="@{/add}" method="post" th:object="${item}">
-
     <input type="text" name="entryfield" value="Walk the dog" th:field="${item.content}"/>
-    <input type="submit" value="Add to your list."/>
+    <input type="submit" value="Add to your list"/>
 </form>
 
 <form th:action="@{/clear}" method="post" th:object="${item}">
-
     <button type="submit">Clear the list</button>
-
 </form>
-
-<form th:action="@{/removeLast}" method="post" th:object="${item}">
-    <button type="submit">Remove last item</button>
-
-</form>
-
 <h2>Your list of things todo</h2>
-
 <table>
     <tr th:each="item : ${todoItems}">
         <td>
-            <div th:text="${item.content}" >Hello World</div>
+            <div th:text="${item.content}">Hello World</div>
         </td>
         <td>
             <a th:href="@{'/removeItem?itemId=' + ${item.itemId}}">Remove</a>
         </td>
     </tr>
 </table>
-
 </body>
 </html>

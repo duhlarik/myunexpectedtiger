@@ -1,4 +1,4 @@
-package com.pillartechnology.unexpectedtiger;
+package com.pillartechnology.unexpectedtiger.repositories;
 
 import com.pillartechnology.unexpectedtiger.model.Item;
 import org.hamcrest.Matchers;
@@ -13,15 +13,15 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
-public class ItemServiceTest {
+public class ItemFileRepositoryTest {
     @Rule
     public TemporaryFolder folder = new TemporaryFolder();
 
     @Test
     public void createItemTestsThatContentIsAddedToAFile() throws Exception {
         String expectedContent1 = "Test 1";
-        ItemService service = new ItemService(folder.getRoot().getPath());
-        Item itemUnderTest1 = service.createItem(expectedContent1);
+        ItemFileRepository service = new ItemFileRepository(folder.getRoot().getPath());
+        Item itemUnderTest1 = service.save(expectedContent1);
         File[] files = folder.getRoot().listFiles();
 
         //ASSERT
@@ -34,12 +34,12 @@ public class ItemServiceTest {
     public void retrieveItemTestsThatTheCorrectItemIsRetrieved() throws Exception {
         //ARRANGE
         String expectedContent = "Test 1";
-        ItemService service = new ItemService(folder.getRoot().getPath());
-        Item testItem = service.createItem(expectedContent);
+        ItemFileRepository service = new ItemFileRepository(folder.getRoot().getPath());
+        Item testItem = service.save(expectedContent);
         String testItemId = testItem.getItemId();
 
         //ACT
-        Item item = service.retrieveItem(testItemId);
+        Item item = service.findOne(testItemId);
 
         //ASSERT
         assertEquals(expectedContent, item.getContent());
@@ -47,13 +47,13 @@ public class ItemServiceTest {
 
     @Test
     public void deleteItemTestsThatTheCorrectItemIsDeleted() throws Exception {
-        ItemService service = new ItemService(folder.getRoot().getPath());
-        Item testItem1 = service.createItem("Test content 1");
-        Item testItem2 = service.createItem("Test content 2");
-        Item testItem3 = service.createItem("Test content 3");
+        ItemFileRepository service = new ItemFileRepository(folder.getRoot().getPath());
+        Item testItem1 = service.save("Test content 1");
+        Item testItem2 = service.save("Test content 2");
+        Item testItem3 = service.save("Test content 3");
 
         String testId2 = testItem2.getItemId();
-        service.deleteItem(testId2);
+        service.delete(testId2);
         File[] files = folder.getRoot().listFiles();
 
         String fileId1 = files[0].getName();
@@ -70,12 +70,12 @@ public class ItemServiceTest {
 
     @Test
     public void retrieveAllItemsTestsThatAllItemsAreRetrieved() throws Exception {
-        ItemService service = new ItemService(folder.getRoot().getPath());
-        Item testItem1 = service.createItem("Test content 1");
-        Item testItem2 = service.createItem("Test content 2");
-        Item testItem3 = service.createItem("Test content 3");
+        ItemFileRepository service = new ItemFileRepository(folder.getRoot().getPath());
+        Item testItem1 = service.save("Test content 1");
+        Item testItem2 = service.save("Test content 2");
+        Item testItem3 = service.save("Test content 3");
 
-        List<Item> files = service.retrieveAllItems();
+        List<Item> files = service.findAll();
 
         List<String> itemFiles = new ArrayList<>();
         itemFiles.add(testItem1.getItemId());
@@ -89,14 +89,14 @@ public class ItemServiceTest {
 
     @Test
     public void deleteAllItemsTestsThatAllItemsAreDeleted() throws Exception {
-        ItemService service = new ItemService((folder.getRoot().getPath()));
-        Item item1 = service.createItem("content 1");
-        Item item2 = service.createItem("content 2");
-        Item item3 = service.createItem("content 3");
+        ItemFileRepository service = new ItemFileRepository((folder.getRoot().getPath()));
+        Item item1 = service.save("content 1");
+        Item item2 = service.save("content 2");
+        Item item3 = service.save("content 3");
 
-        service.deleteAllItems();
+        service.deleteAll();
 
         //ASSERT
-        assertEquals(0, service.retrieveAllItems().size());
+        assertEquals(0, service.findAll().size());
     }
 }
